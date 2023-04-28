@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager instance;
 
     public TMP_Text scoreText;
+    public AudioSource nom;
+    public AudioSource ew;
 
     int score = 0;
 
@@ -25,7 +27,27 @@ public class ScoreManager : MonoBehaviour
 
     public void AddPoint()
     {
+        ScoreManager.instance.nom.Stop();
         score += 1;
+        scoreText.text = "Score: " + score.ToString();
+        ScoreManager.instance.nom.Play();
+        if (score >= 50)
+        {
+            GameManager.Instance.WinGame();
+        }
+    }
+
+    public void LosePoint()
+    {
+        ScoreManager.instance.ew.Stop();
+        if (score > 1)
+        {
+           score -= 2;
+        } else if (score == 1)
+        {
+            score -= 1;
+        }
+        ScoreManager.instance.ew.Play();
         scoreText.text = "Score: " + score.ToString();
     }
 }
